@@ -1,0 +1,285 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+int health = 10;
+int coins = 0;
+int path = 0;
+	
+int question()
+{
+	char answer[4];
+	while (1) {
+    	if (scanf("%3s", answer) == 1 && (strcasecmp(answer, "tak") == 0 || strcasecmp(answer, "nie") == 0)){
+    	  	  break;
+        } else {
+              printf("Bledna odpowiedz! Prosze wprowadzic 'tak' lub 'nie'.\n");
+			  fflush(stdin);
+    	};
+    };
+    if (strcasecmp(answer, "tak") == 0){
+    	return 1;
+    } else {
+    	return 0;
+    };
+};
+
+void healthS (int change) {
+	health = health + change;
+	printf("Stan twojego zdrowia to: %i punktow.\n", health);
+	if (health < 1) {
+		printf("Stan twojego zdrowia dramatycznie sie pogorszyl.\n"
+		"Na szczescie uslyszales, ze w pewnym miejscu mozesz szukac pomocy medycznej.\n"
+		"Jendak taka usluga nie jest darmowa.\n"
+		"Czy chesz skozystac z doraznej pomocy medycznej za dwie monety. (1 punkt zdrowia)\n");
+		if ((question () == 1) && (coins >= 2)) {
+			coins = coins -2;
+			health = 1;
+		} else if ((question () == 1) && (coins < 2)) {
+			printf ("Brakuje Ci monet! Jednak jest jeszcze nadzieja...\n");
+			int chance2 = rand () % 2;
+			if (chance2) {
+				printf("Cudem przezyles.\n");
+				health = 1;
+			} else {
+				printf("Niestety twoja podroz zakonczyla sie.");
+				exit (0);
+			};
+		} else {
+			int chance2 = rand () % 2;
+			if (chance2) {
+				printf("Cudem przezyles.\n");
+				health = 1;
+			} else {
+				printf("Niestety twoja podroz zakonczyla sie.");
+				exit (0);
+			};
+		};
+	};
+};	
+
+void coinsS (int change) {
+	coins = coins + change;
+	printf("Posiadasz %i monet.\n", coins);
+	if (coins >= 10) {
+		printf("Napotkales nieznajomego, ktory oferuje ci pomoc w powrocie do domu wzamian za 10 monet.\n"
+		"Jednak podroz ta jest obarczona ryzykiem niepowodzenia. W tym wypadku twoje kosztownosci przepadna.\n"
+		"Czy chcesz podjac to ryzyko?\n");
+		if ( question () == 1) {
+			int rnumber = rand() % 2;
+			if (rnumber == 1) {
+				printf("Udalo ci sie wrocic do domu!\n");
+				exit (0);
+			} else {
+				printf("Niestety proba zakonczyla sie kleska.\n");
+				coins = coins - 10;
+			};
+		};		
+	};
+};	
+
+int main()
+{	
+	srand(time(NULL));
+        printf("Budzisz sie w nieznanym miejscu, gdzie czas i przestrzen zdaja sie przeczyc logice.\n"
+"Przed Toba stoi portal masywne, pulsujace urzadzenie otoczone swietlistymi runami.\n"
+"Jego zimna poswiata rzuca delikatny blask na otaczajacy Cie krajobraz. Czujesz, ze cos jest nie tak.\n "
+"Twoje wspomnienia sa rozmyte, a jedyne, co wiesz na pewno, to ze ten portal prowadzi do roznych swiatow.\n"
+"Nagle w Twojej glowie rozbrzmiewa cichy, ale wyrazny glos:\n "
+"'Przejdz przez portal, jesli chcesz odzyskac swoje zycie. Ale pamietaj, kazda decyzja niesie konsekwencje.\n "
+"Twoje zdrowie i bogactwo beda testowane, a droga do domu nie jest prosta.'\n "
+"Zanim zdazysz odpowiedziec, ziemia pod Twoimi stopami zaczyna drzec, a portal otwiera sie szerzej.\n "
+"Wiesz, ze nie masz wyboru musisz wejsc.\n "
+"Twoim celem jest odnalezienie drogi do domu, ale kazda rzeczywistosc, w ktorej sie znajdziesz,\n "
+"bedzie stawiala przed Toba trudne wybory. Czasami bedziesz musial poswiecic monety, czasami swoje zycie,\n "
+"aby posuwac sie naprzod. Licznik Twojego zycia wynosi 10 i kazdy blad moze Cie zblizyc do konca.\n "
+"W grze znajdziesz rowniez monety, ktore moga pomoc Ci w powrocie do domu.\n "
+"Czy podejmiesz wyzwanie i stawisz czola nieznanemu?\n "
+"Oto Twoja podroz przez rownolegle swiaty.\n "
+"(Portal rozswietla sie, a Ty wchodzisz do srodka)\n");
+
+	printf("\n"
+"Otwierasz oczy i widzisz miasto pelne stalowych wiez, maszyn i rurociagow.\n"
+"Powietrze jest ciezkie, a dzwieki zgrzytajacych mechanizmow wypelniaja przestrzen.\n"
+"Na scianie obok widzisz napis:\n"
+"(Szukaj rdzenia, ale uwazaj  maszyny widza wszystko.)\n"
+"Za soba dostrzegasz zblizajaca sie maszyne patrolowa.\n"
+"Musisz szybko zdecydowac:\n");
+
+	printf("Ukryjesz sie za zlomem czy podejdziesz do maszyny?\n"
+"tak (ukrywasz sie)\n"
+"nie (podchodzisz)\n");
+
+if (question () == 1) {
+	printf("Udalo Ci sie uniknac konfrontacji z maszyna.\n");
+} else {
+	printf("Wdajesz sie w walke z maszyna. W jej wyniku tracisz jeden punkt zdrowia.\n");
+	healthS (-1);
+};
+
+printf("Przemiezasz dalej nowo poznany swiat. Widzisz grupe androidow w ciemnym zaulku.\n"
+"Czy podejdziesz blizej, aby ich podsluchac?\n");
+
+if (question () == 1) {
+	printf("Dowiadujesz sie o ruchu oporu i mozliwej drodze do rdzenia miasta, ale androidy zauwazaja Cie i ostrzeliwuja.\n"
+	"Tracisz dwa punkty zycia\n");
+	healthS (-2);
+} else {
+	printf("Nie zdobywasz informacji, ale unikasz konfliktu.\n");
+};
+
+printf("W zaulku znajdujesz uszkodzonego androida, ktory blaga o pomoc w naprawie.\n"
+"Czy pomozesz mu?\n");
+
+if (question () == 1) {
+	printf("Android zdradza Ci lokalizacje tajnego warsztatu i daje Ci 3 monety w podziekowaniu.\n");
+	coinsS (3);
+	path = 1;
+} else {
+	printf("Android alarmuje straznikow, ktorzy Cie scigaja. Ucieczka kosztuje Cie sily.\n"
+	"Tracisz jeden punkt zdrowia.\n");
+	healthS (-1);
+	path = 0;
+};
+
+if (path == 1) {
+
+	printf("Android prowadzi Cie do tajnego warsztatu. Czy ufasz jego slowom i wchodzisz do srodka?\n");
+
+	if (question () == 1) {
+	printf("Warsztat okazuje sie kryjowka ruchu oporu, ktory daje Ci wskazowki i 2 monety.\n");
+	coinsS (2);
+	} else {
+	printf("Omijasz warsztat i wpadasz na patrol straznikow, co prowadzi do walki.\n"
+	"Tracisz punkt zdrowia.\n");
+	healthS (-1);
+	};
+} else {
+	printf("Spotykasz straznikow, ktorzy pytaja, dlaczego znajdujesz sie w tej czesci miasta.\n"
+	"Czy sprobujesz sklamac?\n");
+
+	if (question () == 1) {
+	printf("Udaje Ci sie zyskac ich zaufanie, ale stres i presja oslabiaja Cie.\n"
+	"Tracisz punkt zycia.\n");
+	healthS (-1);
+	} else {
+	printf("Uciekasz, ale gubisz w trakcie monety, by odwrocic ich uwage.\n"
+	"Tracisz dwie monety.\n");
+	coinsS (-2);
+	};
+};
+
+printf("W budynku napotykasz terminal komputerowy z dostepem do danych miasta. Czy zhakujesz system?\n");
+
+if (question () == 1) {
+	printf("Zdobywasz kluczowe informacje o rdzeniu, ale uruchamiasz alarm, co skutkuje atakiem straznikow.\n"
+	"Zdobywasz 2 monety tracac punkt zdrowia.\n");
+	coinsS (2);
+	healthS (-1);
+} else {
+	printf("Unikasz alarmu, ale tracisz szanse na dowiedzenie sie, jak ominac straznikow.\n");
+};
+
+printf("Na placu widzisz, jak maszyny patroluja w poblizu skarbca pelnego monet. Czy sprobujesz sie zakrasc?\n");
+
+if (question () == 1) {
+	printf("Zdobywasz 3 monety, ale maszyny zauwazaja Twoja obecnosc i zadaja Ci obrazenia.\n"
+	"(Tracisz 2 punkty zdrowaia.)\n");
+	coinsS (3);
+	healthS (-2);
+} else {
+	printf("Nie ryzykujesz, ale maszyny Cie ignoruja, a Ty zachowujesz swoja anonimowosc.\n");
+};
+
+printf("Widzisz ogromna, polyskujaca kopule w centrum miasta, a obok niej dwa inne budynki,\n"
+"jednak z tej odleglosci nie mozesz dostrzec czym sa. Czy zdecydujesz sie wejsc do kopuly?\n");
+
+if (question () == 1) {
+	printf("Wchodzisz do kopuly i odkrywasz, ze jest to glowne centrum dowodzenia Miasta Maszyn.\n");
+	path = 0;
+} else {
+	printf("Zauwazasz, ze budynki ktore widziales przypominaja warsztat oraz laboratorium.\n");
+	path = 12;
+};
+
+if (path == 12) {
+	printf("Idzesz w kierunku wartsztatu, mozesz do niego wejsc lub isc dalej do laboratorium.\n"
+	"'Tak' (Wchodze)\n"
+	"'Nie' (Ide dalej)\n");
+};
+
+if ((path == 12) && (question () == 1)) {
+	printf("W warsztacie spotykasz androida inzyniera, ktory moze Ci pomoc,\n"
+	"ale zada wykonania niebezpiecznej misji.\n");
+	path = 1;
+} else  if (path == 12) {
+	printf("W laboratorium odkrywasz dziwne eksperymenty prowadzone na maszynach,\n"
+	"ktore moga pomoc Ci w zrozumieniu dzialania portalu.\n");
+	path = 2;
+};
+
+switch (path) {
+	case 0:
+		printf("W centrum dowodzenia znajdujesz terminal sterujacy calym miastem.\n"
+		"Czy sprobujesz go przejac?\n");
+		if (question () == 1) {
+			printf("Zdobywasz kontrole nad systemami miasta, ale aktywujesz alarm.\n"
+			"Tracisz 2 punkty zycia, zdobywajac 3 monety.\n");
+			coinsS (3);
+			healthS (-2);
+		} else {
+			printf("Ukrywasz sie i analizujesz system, ale czas dziala na Twoja niekorzysc.\n");
+			healthS (-1);
+		};
+		break;
+	case 1:
+		printf("Android inzynier prosi Cie o pomoc w zniszczeniu fabryki maszyn. Czy sie zgadzasz?");
+		if (question () == 1) {
+			printf("Udaje Ci sie wysadzic fabryke, co dezorganizuje maszyny w miescie,\n"
+			"ale tracisz zdrowie podczas ucieczki.\n"
+			"Zdobywasz 4 monety tracac 2 punkty zdrowia.\n");
+			coinsS (4);
+			healthS (-2);
+		} else {
+			printf("Odmawiasz, ale android zdradza Cie straznikom. Musisz uciekac.\n"
+			"Tracisz 2 punkty zycia.\n");
+			healthS (-2);
+		};
+		break;
+	case 2:
+		printf("W laboratorium odkrywasz dziwny eksperymentalny przedmiot. Czy go uzyjesz?\n");
+		if (question () == 1) {
+			printf("Zyskujesz tymczasowa ochrone przed maszynami, ale musiales naprawic przedmiot przed jego uzyciem.\n"
+			"Tracisz 2 monety, zyskujac 3 punkty zdrowia.\n");
+			healthS (3);
+			coinsS (-2);
+		} else {
+			printf("Nie dotykasz przedmiotu, ale straznicy odnajduja Twoje slady.\n"
+			"Tracisz punkt zdrowia.\n");
+			healthS (-1);
+		};
+		break;
+	default:
+		printf("Niestety gra napotkala problem.");
+		exit (0);
+};	
+	
+printf("Natrafiasz na portal, ktory swoim wygladem przypomina ten, ktory Cie tu sprowadzil.\n"
+"Obok niego stoi nieznajomy, ktory po wysluchaniu twojej historii decyduje sie pomoc tobie w powrocie."
+"Wiesz, ze byc moze jest to twoja jedyna szansa na powrot do domu. Jednak zdajesz tez sobie sprawe\n"
+"z ryzyka jakim obarczona jest ta podroz. Nieznajomy w zamian za monety, ktore posidasz zakupil zasoby\n"
+"niezbedne do uruchomienia portalu, jednak nie starczylo pieniedzy na wszystkie potrzebne elementy.\n"
+"Stan twojego zdrowia rowniez zadecyduje o tym czy przezyjesz ta podroz."
+"\n"
+"Wchodzisz do poratlu. Nieznajomy zyczy Ci powodzenia...\n");
+
+int chance = rand () % 51 + health + coins;
+
+if (chance >= 25) {
+	printf("Niewiarygodne! Portal zadzialal a tobie udalo sie wrocic do domu. Coz za przygoda!");
+} else {
+	printf("Cos poszlo nie tak, portal nie dzialal poprawnie. Niestety nie przezyles podrozy.");
+};
+return 0;
+};
